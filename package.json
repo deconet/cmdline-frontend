@@ -1,0 +1,21 @@
+{
+  "name": "deconet-cli",
+  "version": "0.0.1",
+  "description": "The deconet command line client.  You can buy and sell code with Deconet.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deconet/frontend.git"
+  },
+  "main": "index.js",
+  "bin": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "inquirer": "^3.0.6"
+  }
+}
