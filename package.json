@@ -9,9 +9,9 @@
   "main": "index.js",
   "bin": "./build/index.bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --colors",
     "build": "webpack",
-    "start": "webpack-dev-server --output-public-path=/build/"
+    "start": "webpack --progress --colors --watch"
   },
   "keywords": [],
   "author": "",
@@ -19,16 +19,21 @@
   "dependencies": {
     "axios": "^0.17.1",
     "commander": "^2.9.0",
-    "inquirer": "^3.0.6"
+    "inquirer": "^3.0.6",
+    "netrc": "^0.1.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^22.0.4",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-0": "^6.24.1",    
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "imports-loader": "^0.7.1",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "inquirer-test": "^2.0.1",
+    "jest": "^22.0.4",
+    "jest-mock-axios": "^1.0.21",
+    "webpack": "^3.8.1"
   }
 }
