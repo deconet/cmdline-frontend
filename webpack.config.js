@@ -22,5 +22,9 @@ module.exports = {
       }
     }],
     rules: [ { test: /rx\.lite\.aggregates\.js/, use: 'imports-loader?define=>false' } ]
+  },
+  node: {
+    __filename: true,
+    __dirname: true
   }
 }

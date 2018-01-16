@@ -25,9 +25,15 @@ program
 .command('get <moduleName>')
 .description('Get a module')
 .action((moduleName) => {
-  Network.getModule(moduleName)
+  Network.getModuleUrl(moduleName)
   .then(function (response) {
-    console.log(response)
+    // console.log('response: ', response.data)
+    Utils.createDeconetModulesDir()
+    const url = (response && response.data && response.data.url)
+    Utils.saveModuleLocally(moduleName, url)
+    .then((finalPath) => {
+      console.log('Success! The module was saved locally to ' + finalPath)
+    })
   })
   .catch(function (error) {
     console.log(error)

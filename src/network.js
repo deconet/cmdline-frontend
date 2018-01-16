@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import Utils from './utils'
 // const backendHost = 'https://deconet-dev.herokuapp.com'
 const backendHost = 'http://localhost:3000'
 
@@ -26,9 +27,17 @@ export default class Network {
     endpoint = backendHost + endpoint // prepend hostname
     return Axios.post(endpoint, requestPayload)
   }
-  static getModule (moduleName) {
-    return Axios.post(backendHost + '/v1/modules', {
-      name: moduleName
+  static getModuleUrl (moduleName) {
+    return Axios.post(backendHost + '/v1/modules/get', {
+      q: moduleName
+    })
+  }
+  static getModuleZip (url) {
+    return Axios.get(url, {
+      responseType: 'stream',
+      headers: {
+        'X-Deconet-Token': Utils.getApiKey()
+      }
     })
   }
 }

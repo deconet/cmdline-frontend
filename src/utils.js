@@ -1,5 +1,9 @@
 import Netrc from 'netrc'
 import Inquirer from 'inquirer'
+import fs from 'fs'
+import path from 'path'
+import { Extract } from 'unzip-stream'
+import rimraf from 'rimraf'
 
 import Network from './network'
 
@@ -61,6 +65,48 @@ export default class Utils {
       } else {
         console.error(error)
       }
+    })
+  }
+  static modDirPath () {
+    return 'deconet_modules'
+  }
+  static createDeconetModulesDir () {
+    let modDirPath = this.modDirPath()
+    // console.log('modDirPath: ' + modDirPath)
+    if (!fs.existsSync(modDirPath)) {
+      // create dir
+      fs.mkdirSync(modDirPath)
+    }
+  }
+  static saveModuleLocally (name, url) {
+    // console.log('saving module locally with name ' + name + ' and url ' + url)
+    return new Promise((resolve, reject) => {
+      Network.getModuleZip(url)
+      .then((response) => {
+        let modPath = path.join(this.modDirPath(), name)
+
+        // delete it if it already exists
+        if (fs.existsSync(modPath)) {
+          rimraf.sync(modPath)
+        }
+
+        let zipFolderNameHeader = response.headers['content-disposition']
+        let parts = zipFolderNameHeader.split('attachment; filename=')
+        // console.log(parts)
+        // chop off start and end quote characters, and .zip ext as well
+        let zipFolderName = parts[1].substr(1).slice(0, -5)
+        let zipFolderPath = path.join(this.modDirPath(), zipFolderName)
+
+        response.data
+        .pipe(Extract({ path: this.modDirPath() }))
+        .on('close', () => {
+          // console.log('extraction complete, zipFolderPath is ' + zipFolderPath)
+          // rename zipFolderPath to modPath
+          fs.renameSync(zipFolderPath, modPath)
+          resolve(modPath)
+        })
+      })
+      .catch(err => reject(err))
     })
   }
 }
