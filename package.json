@@ -1,6 +1,6 @@
 {
   "name": "deconet-cli",
-  "version": "0.0.1",
+  "version": "0.1.6",
   "description": "The Deconet command line client.  You can buy and sell code with Deconet.",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "bin": "./build/index.bundle.js",
   "scripts": {
     "test": "jest --colors",
-    "build": "webpack",
+    "build": "./build.sh",
     "start": "webpack --progress --colors --watch"
   },
   "keywords": [],
@@ -22,7 +22,7 @@
     "inquirer": "^3.0.6",
     "netrc": "^0.1.4",
     "rimraf": "^2.6.2",
-    "unzip-stream": "^0.2.2"
+    "unzip-stream": "git+https://github.com/deconet/unzip-stream.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

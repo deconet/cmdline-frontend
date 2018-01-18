@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import Utils from './utils'
-// const backendHost = 'https://deconet-dev.herokuapp.com'
-const backendHost = 'http://localhost:3000'
+const backendHost = 'https://app.deco.network'
+// const backendHost = 'http://localhost:3000'
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json'
 Axios.defaults.headers.post['Accept'] = 'application/json'
@@ -39,5 +39,8 @@ export default class Network {
         'X-Deconet-Token': Utils.getApiKey()
       }
     })
+  }
+  static updateCheck () {
+    return Axios.get(backendHost + '/v1/releases/update')
   }
 }

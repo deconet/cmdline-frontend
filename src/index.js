@@ -4,7 +4,7 @@ import Utils from './utils'
 import Network from './network'
 
 program
-.version('0.0.1')
+.version(Utils.getVersion())
 .description('The Deconet command line client.  You can buy and sell code with Deconet.')
 
 program
@@ -40,13 +40,29 @@ program
   })
 })
 
-program.parse(process.argv)
+program
+.command('update')
+.description('Update the Deconet command line client.')
+.action(() => {
+  Utils.updateToLatest(true)
+})
 
-// Check the program.args obj
-var NO_COMMAND_SPECIFIED = program.args.length === 0
+// first, check for update
+Utils.updateToLatest(false)
+.then((updated) => {
+  if (updated) {
+    // quit and tell them to restart now that we updated.
+    console.log('Your application has finished updating.  You may need to run your original command again.')
+  } else {
+    program.parse(process.argv)
 
-// Handle it however you like
-if (NO_COMMAND_SPECIFIED) {
-  // e.g. display usage
-  program.help()
-}
+    // Check the program.args obj
+    var NO_COMMAND_SPECIFIED = program.args.length === 0
+
+    // Handle it however you like
+    if (NO_COMMAND_SPECIFIED) {
+      // e.g. display usage
+      program.help()
+    }
+  }
+})

@@ -4,8 +4,11 @@ import fs from 'fs'
 import path from 'path'
 import { Extract } from 'unzip-stream'
 import rimraf from 'rimraf'
+import child_process from 'child_process'
 
 import Network from './network'
+
+var packageJson = require('../package.json')
 
 const domainName = 'deco.network'
 
@@ -107,6 +110,51 @@ export default class Utils {
         })
       })
       .catch(err => reject(err))
+    })
+  }
+  static getVersion () {
+    return packageJson.version
+  }
+  static updateBinary () {
+    // replace self with new version
+    child_process.exec('curl -L https://app.deco.network/releases/latest > /usr/local/bin/deconet; chmod +x /usr/local/bin/deconet')
+  }
+  static updateToLatest (manuallyInvoked) {
+    let updated = false
+    return new Promise((resolve, reject) => {
+      Network.updateCheck()
+      .then(response => {
+        const remoteVersion = (response && response.data && response.data.human_version)
+        if (Utils.getVersion() !== remoteVersion) {
+          if (manuallyInvoked === true) {
+            console.log('Updating from ' + Utils.getVersion() + ' to version ' + remoteVersion + '.  Please wait...')
+            Utils.updateBinary()
+            resolve(true)
+          } else {
+            // prompt user to update
+            let questions = [
+              {
+                type: 'confirm',
+                name: 'update',
+                message: 'You are running version ' + Utils.getVersion() + ' of the command line client, but the latest is ' + remoteVersion + '.  Would you like to update to the latest version?'
+              }
+            ]
+            Inquirer.prompt(questions)
+            .then(answers => {
+              if (answers.update === true) {
+                Utils.updateBinary()
+                updated = true
+              }
+              resolve(updated)
+            })
+          }
+        } else {
+          if (manuallyInvoked === true) {
+            console.log('No update needed.  You are running the latest version :)')
+          }
+          resolve(false)
+        }
+      })
     })
   }
 }
