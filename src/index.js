@@ -27,6 +27,11 @@ program
 .action((moduleName) => {
   Network.getModuleUrl(moduleName)
   .then(function (response) {
+    const error = (response && response.data && response.data.error)
+    if (error) {
+      console.log(error)
+      return
+    }
     // console.log('response: ', response.data)
     Utils.createDeconetModulesDir()
     const url = (response && response.data && response.data.url)

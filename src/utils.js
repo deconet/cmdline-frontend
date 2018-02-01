@@ -82,7 +82,7 @@ export default class Utils {
     }
   }
   static saveModuleLocally (name, url) {
-    // console.log('saving module locally with name ' + name + ' and url ' + url)
+    console.log('saving module locally with name ' + name + ' and url ' + url)
     return new Promise((resolve, reject) => {
       Network.getModuleZip(url)
       .then((response) => {

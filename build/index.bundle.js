@@ -24475,7 +24475,7 @@ class Utils {
     }
   }
   static saveModuleLocally (name, url) {
-    // console.log('saving module locally with name ' + name + ' and url ' + url)
+    console.log('saving module locally with name ' + name + ' and url ' + url)
     return new Promise((resolve, reject) => {
       __WEBPACK_IMPORTED_MODULE_7__network__["a" /* default */].getModuleZip(url)
       .then((response) => {
@@ -33695,6 +33695,11 @@ __WEBPACK_IMPORTED_MODULE_0_commander___default.a
 .action((moduleName) => {
   __WEBPACK_IMPORTED_MODULE_2__network__["a" /* default */].getModuleUrl(moduleName)
   .then(function (response) {
+    const error = (response && response.data && response.data.error)
+    if (error) {
+      console.log(error)
+      return
+    }
     // console.log('response: ', response.data)
     __WEBPACK_IMPORTED_MODULE_1__utils__["a" /* default */].createDeconetModulesDir()
     const url = (response && response.data && response.data.url)
@@ -56204,7 +56209,7 @@ module.exports = function spread(callback) {
 /* 498 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"deconet-cli","version":"0.1.6","description":"The Deconet command line client.  You can buy and sell code with Deconet.","repository":{"type":"git","url":"https://github.com/deconet/frontend.git"},"main":"index.js","bin":"./build/index.bundle.js","scripts":{"test":"jest --colors","build":"./build.sh","start":"webpack --progress --colors --watch"},"keywords":[],"author":"","license":"GPL-3.0","dependencies":{"axios":"^0.17.1","commander":"^2.9.0","inquirer":"^3.0.6","netrc":"^0.1.4","rimraf":"^2.6.2","unzip-stream":"git+https://github.com/deconet/unzip-stream.git"},"devDependencies":{"babel-core":"^6.26.0","babel-jest":"^22.0.4","babel-loader":"^7.1.2","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.1","babel-preset-es2015":"^6.24.1","babel-preset-stage-0":"^6.24.1","imports-loader":"^0.7.1","inquirer-test":"^2.0.1","jest":"^22.0.4","jest-mock-axios":"^1.0.21","webpack":"^3.8.1"}}
+module.exports = {"name":"deconet-cli","version":"1.0.0","description":"The Deconet command line client.  You can buy and sell code licenses with Deconet.","repository":{"type":"git","url":"https://github.com/deconet/frontend.git"},"main":"index.js","bin":"./build/index.bundle.js","scripts":{"test":"jest --colors","build":"./build.sh","start":"webpack --progress --colors --watch"},"keywords":[],"author":"","license":"GPL-3.0","dependencies":{"axios":"^0.17.1","commander":"^2.9.0","inquirer":"^3.0.6","netrc":"^0.1.4","rimraf":"^2.6.2","unzip-stream":"git+https://github.com/deconet/unzip-stream.git"},"devDependencies":{"babel-core":"^6.26.0","babel-jest":"^22.0.4","babel-loader":"^7.1.2","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.1","babel-preset-es2015":"^6.24.1","babel-preset-stage-0":"^6.24.1","imports-loader":"^0.7.1","inquirer-test":"^2.0.1","jest":"^22.0.4","jest-mock-axios":"^1.0.21","webpack":"^3.8.1"}}
 
 /***/ })
 /******/ ]);
