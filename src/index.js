@@ -1,4 +1,6 @@
 import program from 'commander'
+import Inquirer from 'inquirer'
+import opn from 'opn'
 
 import Utils from './utils'
 import Network from './network'
@@ -35,9 +37,24 @@ program
     // console.log('response: ', response.data)
     Utils.createDeconetModulesDir()
     const url = (response && response.data && response.data.url)
+    const buyLicenseUrl = (response && response.data && response.data.buyLicenseUrl)
     Utils.saveModuleLocally(moduleName, url)
     .then((finalPath) => {
       console.log('Success! The module was saved locally to ' + finalPath)
+      let questions = [
+        {
+          type: 'confirm',
+          name: 'buyLicense',
+          message: 'This module is licensed under the GPL.  To legally use this module, your project must also be licensed under the GPL.  Or, you can buy a GPL exception which allows you the freedom to license your own project under any license.  Are you interested in buy a GPL exception?'
+        }
+      ]
+      Inquirer.prompt(questions)
+      .then(answers => {
+        if (answers.buyLicense === true) {
+          console.log('Visit this URL to buy an exception: ' + buyLicenseUrl)
+          opn(buyLicenseUrl, {wait: false})
+        }
+      })
     })
   })
   .catch(function (error) {
@@ -57,7 +74,7 @@ Utils.updateToLatest(false)
 .then((updated) => {
   if (updated) {
     // quit and tell them to restart now that we updated.
-    console.log('Your application has finished updating.  You may need to run your original command again.')
+    console.log('Your application is updating and will exit when complete.  You may need to run your original command again.')
   } else {
     program.parse(process.argv)
 

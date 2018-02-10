@@ -1,6 +1,6 @@
 {
   "name": "deconet-cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "The Deconet command line client.  You can buy and sell code licenses with Deconet.",
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "commander": "^2.9.0",
     "inquirer": "^3.0.6",
     "netrc": "^0.1.4",
+    "opn": "^5.2.0",
     "rimraf": "^2.6.2",
     "unzip-stream": "git+https://github.com/deconet/unzip-stream.git"
   },
